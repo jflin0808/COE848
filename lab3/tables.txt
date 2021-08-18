@@ -1,0 +1,35 @@
+CREATE TABLE player_plays_champion (
+playID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+player_id INTEGER,
+champion_id INTEGER,
+CONSTRAINT fk_player_id FOREIGN KEY (player_id) REFERENCES player(playerID)
+CONSTRAINT fk_champion_id FOREIGN KEY (champion_id) REFERENCES champion(championID));
+
+CREATE TABLE designer_designs_champion (
+designID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+designer_id INTEGER,
+champion_id INTEGER,
+CONSTRAINT fk_designer_id FOREIGN KEY (designer_id) REFERENCES designers(designerID)
+CONSTRAINT fk_champion_id FOREIGN KEY (champion_id) REFERENCES champions(championID)
+);
+
+CREATE TABLE team_has_player (
+teamplayerID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+team_id INTEGER,
+player_id INTEGER,
+CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES teams(teamID),
+CONSTRAINT fk_player_id FOREIGN KEY (player_id) REFERENCES players(playerID));
+
+CREATE TABLE tournament_has_team (
+tournamentteamID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+tournament_id INTEGER,
+team_id INTEGER,
+CONSTRAINT fk_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournaments(tournamentID),
+CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES teams(teamID));
+
+CREATE TABLE tournament_holds_match (
+tournamentmatchID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+tournament_id INTEGER,
+match_id INTEGER,
+CONSTRAINT fk_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournaments(tournamentID),
+CONSTRAINT fk_match_id FOREIGN KEY (match_id) REFERENCES matches(matchID));

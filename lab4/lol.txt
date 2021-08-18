@@ -1,0 +1,118 @@
+CREATE TABLE players(
+playerID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+name VARCHAR(255) NOT NULL,
+position VARCHAR(255),
+kp DOUBLE,
+avgKDA DOUBLE,
+avgCSM DOUBLE);
+
+CREATE TABLE champions(
+championID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+name VARCHAR(255) NOT NULL,
+pickrate DOUBLE,
+banrate DOUBLE,
+winrate DOUBLE);
+
+CREATE TABLE designers(
+designerID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+name VARCHAR(255) NOT NULL);
+
+CREATE TABLE teams(
+teamID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+name VARCHAR(255) NOT NULL,
+region VARCHAR(255) NOT NULL,
+winrate DOUBLE,
+avgGD DOUBLE,
+avgDPG DOUBLE);
+
+CREATE TABLE tournaments(
+tournamentID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+splitname VARCHAR(255) NOT NULL,
+region VARCHAR(255),
+prizepool DOUBLE,
+numberofgames INTEGER);
+
+CREATE TABLE player_plays_champion (
+player_id INTEGER,
+champion_id INTEGER,
+CONSTRAINT fk_player_id FOREIGN KEY (player_id) REFERENCES player(playerID)
+CONSTRAINT fk_champion_id FOREIGN KEY (champion_id) REFERENCES champion(championID));
+
+CREATE TABLE designer_designs_champion (
+designer_id INTEGER,
+champion_id INTEGER,
+CONSTRAINT fk_designer_id FOREIGN KEY (designer_id) REFERENCES designers(designerID)
+CONSTRAINT fk_champion_id FOREIGN KEY (champion_id) REFERENCES champions(championID));
+
+CREATE TABLE team_has_player (
+team_id INTEGER,
+player_id INTEGER,
+CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES teams(teamID),
+CONSTRAINT fk_player_id FOREIGN KEY (player_id) REFERENCES players(playerID));
+
+CREATE TABLE tournament_has_team (
+tournament_id INTEGER,
+team_id INTEGER,
+CONSTRAINT fk_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournaments(tournamentID),
+CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES teams(teamID));
+
+players:
+INSERT INTO players(name, position, kp, avgKDA, avgCSM) VALUES('Pyosik', 'Jungle', 70, 3.5, 7.4);
+INSERT INTO players(name, position, kp, avgKDA, avgCSM) VALUES('Faker', 'Mid', 68.9, 5.1, 8.2);
+INSERT INTO players(name, position, kp, avgKDA, avgCSM) VALUES('Rascal', 'Top', 59.6, 3.0, 8.8);
+INSERT INTO players(name, position, kp, avgKDA, avgCSM) VALUES('Jensen', 'Mid', 65.9, 6.1, 8.7);
+INSERT INTO players(name, position, kp, avgKDA, avgCSM) VALUES('TheShy', 'Top', 47.5, 2.4, 7.9);
+INSERT INTO players(name, position, kp, avgKDA, avgCSM) VALUES('Huanfeng', 'Adc', 70.7, 6.8, 10);
+INSERT INTO players(name, position, kp, avgKDA, avgCSM) VALUES('LvMao', 'Support', 68, 2.6, 1.1);
+INSERT INTO players(name, position, kp, avgKDA, avgCSM) VALUES('SwordArt', 'Support', 63, 2.9, 1.2);
+INSERT INTO players(name, position, kp, avgKDA, avgCSM) VALUES('Revenge', 'Top', 63.2, 2.6, 7.7);
+INSERT INTO players(name, position, kp, avgKDA, avgCSM) VALUES('Iconic', 'Jungle', 58.8, 2.1, 6.8);
+
+champions:
+INSERT INTO champions(name, pickrate, banrate, winrate) VALUES('Kaisa', 73.4, 18.1, 51);
+INSERT INTO champions(name, pickrate, banrate, winrate) VALUES('Syndra', 40.7, 23.2, 51);
+INSERT INTO champions(name, pickrate, banrate, winrate) VALUES('Alistar', 39, 29.9, 51);
+INSERT INTO champions(name, pickrate, banrate, winrate) VALUES('Rell', 39, 40.1, 51);
+INSERT INTO champions(name, pickrate, banrate, winrate) VALUES('Orianna', 20.9, 18.1, 51);
+INSERT INTO champions(name, pickrate, banrate, winrate) VALUES('Gnar', 37.9, 50.3, 51);
+INSERT INTO champions(name, pickrate, banrate, winrate) VALUES('Nidalee', 32.2, 20.3, 51);
+INSERT INTO champions(name, pickrate, banrate, winrate) VALUES('Samira', 32.2, 23.7, 51);
+INSERT INTO champions(name, pickrate, banrate, winrate) VALUES('Olaf', 31.1, 33.3, 51);
+INSERT INTO champions(name, pickrate, banrate, winrate) VALUES('Lillia', 29.9, 58.2, 51);
+
+
+designers:
+INSERT INTO designers(name) VALUES ('Steve Feak');
+INSERT INTO designers(name) VALUES ('Tom Cadwell');
+INSERT INTO designers(name) VALUES ('Mark Yetter');
+INSERT INTO designers(name) VALUES ('Christina Norman');
+INSERT INTO designers(name) VALUES ('David Capurro');
+INSERT INTO designers(name) VALUES ('Rob Garrett');
+
+teams:
+INSERT INTO teams(name, region, winrate, avgGD, avgDPG) VALUES ('DRX', 'KR', 52.6, 33.42, 2.08);
+INSERT INTO teams(name, region, winrate, avgGD, avgDPG) VALUES ('T1', 'KR', 56.8, 32.57, 2.38);
+INSERT INTO teams(name, region, winrate, avgGD, avgDPG) VALUES ('GenG', 'KR', 63.9, 32.20, 2.39);
+INSERT INTO teams(name, region, winrate, avgGD, avgDPG) VALUES ('Team Liquid', 'NA', 71, 30.09, 2.55);
+INSERT INTO teams(name, region, winrate, avgGD, avgDPG) VALUES ('Invictus', 'CN', 51.7, 29.32, 2.62);
+INSERT INTO teams(name, region, winrate, avgGD, avgDPG) VALUES ('Suning', 'CN', 55.6,32.27,2.37);
+INSERT INTO teams(name, region, winrate, avgGD, avgDPG) VALUES ('JD Gaming', 'CN', 66.7, 31.44, 2.48);
+INSERT INTO teams(name, region, winrate, avgGD, avgDPG) VALUES ('TSM', 'NA', 60, 33.19, 2.58);
+INSERT INTO teams(name, region, winrate, avgGD, avgDPG) VALUES ('Golden Guardians', 'NA', 16.7, 35.04, 2.04);
+INSERT INTO teams(name, region, winrate, avgGD, avgDPG) VALUES ('Immortals', 'NA', 34.8, 31.46, 1.43);
+
+tournaments:
+INSERT INTO tournaments(splitname, region, prizepool, numberofgames) VALUES ('LEC Spring 2021', 'EUW', 200000, 90);
+INSERT INTO tournaments(splitname, region, prizepool, numberofgames) VALUES ('LPL Spring 2021', 'CN', 650000, 249);
+INSERT INTO tournaments(splitname, region, prizepool, numberofgames) VALUES ('VCS Spring 2021', 'VN', 50000, 94);
+INSERT INTO tournaments(splitname, region, prizepool, numberofgames) VALUES ('LCK Spring 2021', 'KR', 225000, 177);
+INSERT INTO tournaments(splitname, region, prizepool, numberofgames) VALUES ('TCL Spring 2021', 'TR', 20000, 80);
+INSERT INTO tournaments(splitname, region, prizepool, numberofgames) VALUES ('LCS Spring 2021', 'NA', 200000, 80);
+INSERT INTO tournaments(splitname, region, prizepool, numberofgames) VALUES ('LCL Spring 2021', 'CIS', 68000, 40);
+INSERT INTO tournaments(splitname, region, prizepool, numberofgames) VALUES ('PCS Spring 2021', 'PCS', 125000, 72);
+INSERT INTO tournaments(splitname, region, prizepool, numberofgames) VALUES ('LJL Spring 2021', 'JP', 92000, 57);
+INSERT INTO tournaments(splitname, region, prizepool, numberofgames) VALUES ('LFL Spring 2021', 'FR', 20000, 90);
+
+
+
+
